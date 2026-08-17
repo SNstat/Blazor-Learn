@@ -1,0 +1,36 @@
+﻿@using Blazor_Learn.Models.DataBrowser
+@inject DataService DataSvc
+
+@page "/databrowser"
+@rendermode InteractiveServer
+
+<h1>Data Browser</h1>
+
+@if(dataPoints == null) {
+    <p>We are searching for data points!</p>
+} else
+{
+    <ul id="dataList">
+        @foreach (var dataPoint in dataPoints)
+        {
+            <li style="background-image: url(@dataPoint.ImageUrl)">
+                <h2>@dataPoint.Name</h2>
+                <p>@dataPoint.Description</p>
+                <span>@dataPoint.GetStandardPriceValue()</span>
+                <div>
+                    <label for="orderCheckBox">Order:</label>
+                    <input id="orderCheckBox" type="checkbox" @bind="dataPoint.IsChecked" />
+                </div>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private List<DataPoint> dataPoints = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        dataPoints = await DataSvc.GetDataPointsAsync();
+    }
+}

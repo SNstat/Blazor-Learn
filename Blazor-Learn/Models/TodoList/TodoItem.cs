@@ -1,4 +1,4 @@
-﻿namespace Blazor_Learn.Models
+﻿namespace Blazor_Learn.Models.TodoList
 {
     public class TodoItem
     {

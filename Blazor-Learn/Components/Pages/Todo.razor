@@ -1,4 +1,6 @@
-﻿@page "/todo"
+﻿@using Blazor_Learn.Models.TodoList
+
+@page "/todo"
 @rendermode InteractiveServer
 
 <h3>Todo (@todos.Count(todo => !todo.IsDone))</h3>
