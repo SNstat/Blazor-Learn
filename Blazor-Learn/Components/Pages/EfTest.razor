@@ -1,0 +1,30 @@
+﻿@page "/eftest" ;
+
+@using Blazor_Learn.Services;
+@using Blazor_Learn.Data.Models;
+@inject CustomerService customerService;
+
+<PageTitle>EfTest</PageTitle>
+
+<h3>EfTest</h3>
+
+<EditForm Model=@customer OnValidSubmit="Submit" FormName="CreateCustomerForm">
+    <label for="NameInput">Name</label>
+    <InputText id="NameInput" @bind-Value="@customer.Name"></InputText>
+    <label for="NameAge">Name</label>
+    <InputNumber id="NameAge" @bind-Value="@customer.Age"></InputNumber>
+    <button type="submit" class="btn-primary">Create customer</button>
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm]
+    public Customer customer { get; set; } = new();
+
+    public void Submit(EditContext editContext)
+    {
+        var newCustomer = (Customer)editContext.Model;
+        newCustomer.CreatedDate = DateTime.Now;
+        customerService.AddCustomer(newCustomer);
+        customer = new();
+    }
+}

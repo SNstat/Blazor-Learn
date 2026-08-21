@@ -1,20 +1,24 @@
 using Blazor_Learn.Components;
+using Blazor_Learn.Data;
 using Blazor_Learn.Models.DataBrowser;
+using Blazor_Learn.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionStringEfTest = builder.Configuration.GetConnectionString("EfTestDb");
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddSingleton<DataService>();
+builder.Services.AddTransient<CustomerService>();
+builder.Services.AddDbContextFactory<EfDbContext>((DbContextOptionsBuilder options) => options.UseSqlite(connectionStringEfTest));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
