@@ -1,7 +1,7 @@
+using Blazor_Learn.Business.Services;
 using Blazor_Learn.Components;
 using Blazor_Learn.Data;
 using Blazor_Learn.Models.DataBrowser;
-using Blazor_Learn.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +12,9 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddSingleton<DataService>();
 builder.Services.AddTransient<CustomerService>();
-builder.Services.AddDbContextFactory<EfDbContext>((DbContextOptionsBuilder options) => options.UseSqlite(connectionStringEfTest));
+
+builder.Services.AddDbContextFactory<AppDbContext>(options => 
+    options.UseSqlite(connectionStringEfTest));
 
 var app = builder.Build();
 

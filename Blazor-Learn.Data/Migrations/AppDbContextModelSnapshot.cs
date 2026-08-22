@@ -3,24 +3,21 @@ using System;
 using Blazor_Learn.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Blazor_Learn.Migrations
+namespace Blazor_Learn.Data.Migrations
 {
-    [DbContext(typeof(EfDbContext))]
-    [Migration("20260821084514_added_orders_table")]
-    partial class added_orders_table
+    [DbContext(typeof(AppDbContext))]
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.11");
 
-            modelBuilder.Entity("Blazor_Learn.Data.Models.Customer", b =>
+            modelBuilder.Entity("Blazor_Learn.Data.Entities.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,14 +31,18 @@ namespace Blazor_Learn.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(250)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("Blazor_Learn.Data.Models.Order", b =>
+            modelBuilder.Entity("Blazor_Learn.Data.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +52,6 @@ namespace Blazor_Learn.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ItemDescription")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Quantity")
@@ -64,15 +64,20 @@ namespace Blazor_Learn.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Blazor_Learn.Data.Models.Order", b =>
+            modelBuilder.Entity("Blazor_Learn.Data.Entities.Order", b =>
                 {
-                    b.HasOne("Blazor_Learn.Data.Models.Customer", "Customer")
-                        .WithMany()
+                    b.HasOne("Blazor_Learn.Data.Entities.Customer", "Customer")
+                        .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("Blazor_Learn.Data.Entities.Customer", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

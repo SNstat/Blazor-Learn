@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="Blazor-Learn.Business/Blazor-Learn.Business.csproj" Id="1f04ea0d-94ea-4830-9e2d-e05edefbb314" />
+  <Project Path="Blazor-Learn.Data/Blazor-Learn.Data.csproj" Id="8fcf58d1-f977-46d6-a17f-7e512161c750" />
   <Project Path="Blazor-Learn/Blazor-Learn.csproj" />
 </Solution>
